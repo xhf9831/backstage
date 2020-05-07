@@ -5,8 +5,8 @@ module.exports = {
     emailPass: '', // 发送邮件的pass
     scope: ['user'],
     secret: '',
-    accessKeyId: 'LTAI4G6PTiFax2s12kx8knDi', // 阿里云短信key
-    secretAccessKey: '9mh2Z66w5jPGpKGtWcJXlMB5XQfzLA', // 阿里云短信accessKey
+    accessKeyId: 'LTAI4GKfYa3d619FjcEQsiFu', // 阿里云短信key
+    secretAccessKey: 'tWEqd0bQcPGWtj8NDyJA5SwU6W1Iye', // 阿里云短信accessKey
     whitePath: ['/', '/users/login', '/users/register', '/users/captcha', '/users/sendMsg',
         '/users/findPwd', '/users/logout', /^\/api/, /\.(jpg|jepg|gif|png)$/
     ], // 忽略验证的接口
