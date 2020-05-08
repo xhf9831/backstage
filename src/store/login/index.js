@@ -5,7 +5,8 @@ export default {
     namespaced: true,
     state: {
         code: '',
-        msg: ''
+        msg: '',
+        menu: ''
     },
     mutations: {
         setCode(state, data) {
@@ -13,6 +14,9 @@ export default {
         },
         setSend(state, data) {
             state.msg = data
+        },
+        setMenu(state, data) {
+            state.menu = data
         }
     },
     actions: {
@@ -72,6 +76,11 @@ export default {
             } else {
                 Message.warning(res.msg)
             }
+        },
+        //获取菜单
+        async getMenus({ commit }) {
+            let res = await api.getMenus()
+            console.log(res);
         }
     }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home/home'
+import common from '../components/common/common'
 
 Vue.use(VueRouter)
 
@@ -10,11 +11,15 @@ const routes = [{
     },
     {
         path: '/home',
-        name: 'Home',
-        component: Home,
-        meta: {
-            title: '首页'
-        }
+        component: common,
+        children: [{
+            path: '/',
+            name: 'home',
+            component: Home,
+            meta: {
+                title: '首页'
+            },
+        }]
     },
     {
         path: '/login',
