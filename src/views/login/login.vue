@@ -14,7 +14,7 @@
           <el-form-item prop="code">
             <div class="box">
               <div>
-              <el-input placeholder="验证码" v-model.number="ruleForm.code"></el-input> 
+              <el-input placeholder="验证码" v-model="ruleForm.code"></el-input> 
               </div>
               <div class="code">
                 <div @click="changeCode" v-html="code"></div>   
@@ -26,15 +26,17 @@
       <el-tab-pane label="手机号码登录" name="phone">
         <el-form :model="phoneForm" status-icon :rules="phonerules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item prop="phone">
-            <el-input type="text" placeholder="11位合格的电话" v-model="ruleForm.username" autocomplete="off"></el-input>
+            <el-input type="text" placeholder="11位合格的电话" v-model="phoneForm.phone" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item prop="code">
             <div class="box">
               <div>
-                <el-input placeholder="6位验证码" type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
+                <el-input placeholder="6位验证码" type="text" v-model="phoneForm.code" autocomplete="off"></el-input>
               </div>
               <div class="but">
-                <el-button>验证码</el-button>  
+                <el-button v-if="num===0" @click="getMsg">验证码</el-button>  
+                <el-button v-else-if="num===1" disabled>{{time}}s后再次发送</el-button>  
+                <el-button v-else @click="getMsg">再次发送</el-button>  
               </div>
             </div>
           </el-form-item>
@@ -45,12 +47,12 @@
       <div>
         <el-checkbox @click="changeSelect" v-model="checked">记住我</el-checkbox>              
       </div>
-      <div class="forget">
+      <div @click="goto('/findback')" class="forget">
         忘记密码？
       </div>
     </div>
     <div class="forgetbox">
-      <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+      <el-button type="primary" @click="submitForm">登录</el-button>
     </div>
     <div class="forgetbox box space-between">
       <div class="box">
@@ -67,13 +69,17 @@
 
 <script>
 import comonhead from '../../components/loginhead'
+import {createNamespacedHelpers} from 'vuex'
+const loginModule = createNamespacedHelpers('login')
+const {mapActions:loginActions,mapState:loginState} = loginModule
  export default {
    data () {
      return {
        activeName:'user',
        checked:false,
        type:'password',
-       code:'',
+       num:0,
+       time:60,
        ruleForm:{
          username:'',
          password:'',
@@ -91,6 +97,19 @@ import comonhead from '../../components/loginhead'
          code:[
            {required:true, message: '请输入验证码', trigger: 'blur'}
          ]
+       },
+       phoneForm:{
+         phone:'',
+         code:''
+       },
+       phonerules:{
+         phone:[
+           {required:true, message: '请输入电话号码', trigger: 'blur'},
+           {pattern: /^1[34578]\d{9}$/, message: '目前只支持中国大陆的手机号码'}
+         ],
+         code:[
+           {required:true, message: '请输入验证码', trigger: 'blur'}
+         ]
        }
      }
    },
@@ -98,37 +117,82 @@ import comonhead from '../../components/loginhead'
      comonhead
    },
    methods: {
+     ...loginActions(['getCaptcha','sendMsg','login','phoneLogin']),
      submitForm(){
-
+       if(this.activeName === 'user'){
+         console.log(this.ruleForm);
+         this.login(this.ruleForm).then(()=>{
+          if(this.checked === true){
+            localStorage.setItem('user',JSON.stringify(this.ruleForm))
+            localStorage.setItem('checked',true)
+          }else{
+            localStorage.clear('user')
+            localStorage.clear('checked')
+          }           
+         })
+       }else{
+         console.log(this.phoneForm);
+         this.phoneLogin(this.phoneForm).then(()=>{
+          if(this.checked === true){
+            localStorage.setItem('phone',JSON.stringify(this.phoneForm))
+            localStorage.setItem('checked',true)
+          }else{
+            localStorage.clear('user')
+            localStorage.clear('checked')
+          }           
+         })
+       }
      },
-     handleClick(tab, event) {
-      console.log(tab, event);
+     handleClick(tab) {
+      this.activeName = tab.name
      },
      changeSelect(){
 
      },
-     getCode(){
-       this.$api.getCaptcha().then(res=>{
-        this.code = res
-       }).catch(err=>{
-         console.log(err);
-       })
-     },
      changeCode(){
-       this.getCode()
+       this.getCaptcha()
      },
      goto(path){
        this.$router.push(path)
+     },
+     getMsg(){
+       if(this.phoneForm.phone !==''){
+        this.sendMsg(this.phoneForm.phone).then(()=>{
+          this.num = 1
+          let timeout = setInterval(()=>{
+            this.time = this.time - 1
+            if(this.time === 0){
+              clearInterval(timeout)
+              this.num = 2
+            }
+          },1000)
+        })         
+       }else{
+        this.$message({
+          showClose: true,
+          message: '电话号码未填写',
+          type: 'error'
+        });
+       }
      }
    },
    mounted() {
-     this.getCode()
+     this.getCaptcha()
+     if(localStorage.getItem('user')){
+       this.checked = JSON.parse(localStorage.getItem('checked'))
+       this.ruleForm.username = JSON.parse(localStorage.getItem('user')).username
+       this.ruleForm.password = JSON.parse(localStorage.getItem('user')).password
+     }
+     if(localStorage.getItem('phone')){
+       this.checked = JSON.parse(localStorage.getItem('checked'))
+       this.phoneForm.phone = JSON.parse(localStorage.getItem('phone')).phone
+     }
    },
    watch: {
 
    },
    computed: {
-
+     ...loginState(['code'])
    }
  }
 </script>
@@ -140,7 +204,7 @@ import comonhead from '../../components/loginhead'
   margin: 0 auto;
 }
 .forgetbox{
-  margin: 5px 35px;
+  margin: 15px 35px;
   font-size: 14px;
   img{
     width: 20px;

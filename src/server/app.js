@@ -1,9 +1,10 @@
 const Koa = require('koa')
 const app = new Koa()
+const path = require('path')
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
+const koaBody = require('koa-body')
 const logger = require('koa-logger')
 const mongoose = require('mongoose')
 const session = require('koa-session')
@@ -49,9 +50,6 @@ app.use(session(CONFIG, app))
 onerror(app)
 
 // middlewares
-app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text']
-}))
 app.use(json())
 app.use(logger())
 
@@ -93,6 +91,13 @@ app.use(jwtKoa({
   path: whitePath //数组中的路径不需要通过jwt验证
 }))
 
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+    uploadDir: path.join(__dirname, '/public/uploads'),
+    keepExtensions: true,
+  },
+}))
 
 app.use(require('koa-static')(__dirname + '/public'))
 
@@ -118,7 +123,7 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 })
 
-mongoose.connect('mongodb://localhost:27017/admin', {
+mongoose.connect('mongodb://49.233.66.125:27017/oa-admin', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, err => {
