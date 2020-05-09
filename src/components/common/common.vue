@@ -1,7 +1,7 @@
 <template>
  <div>
   <el-container>
-    <el-aside width="200px"><left></left></el-aside>
+    <el-aside width="200px" :class="isCollapse? 'col':''"><left></left></el-aside>
     <el-container>
       <el-header><navhead></navhead></el-header>
       <el-main><router-view></router-view></el-main>
@@ -16,7 +16,7 @@ import navhead from '../navhead/navhead';
  export default {
    data () {
      return {
-
+       isCollapse:false
      }
    },
    components: {
@@ -27,7 +27,9 @@ import navhead from '../navhead/navhead';
 
    },
    mounted() {
-
+    this.$bus.$on('toggle', data => {
+      this.isCollapse = data
+    })
    },
    watch: {
 
@@ -39,5 +41,8 @@ import navhead from '../navhead/navhead';
 </script>
 
 <style scoped lang='scss'>
-
+.col{
+  width: auto !important;
+  transition: all .3s;
+}
 </style>

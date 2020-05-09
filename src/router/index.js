@@ -100,8 +100,7 @@ const routes = [{
         component: common,
         meta: {
             title: '组织员工',
-            enTitle: 'organize',
-            icon: 'el-icon-folder-opened'
+            enTitle: 'organize'
         },
         children: [{
                 path: 'offer',
@@ -111,7 +110,6 @@ const routes = [{
                 meta: {
                     title: 'offer管理',
                     enTitle: 'offer',
-                    icon: 'el-icon-folder-opened'
                 }
             },
             {
@@ -122,8 +120,7 @@ const routes = [{
                     import ('../views/userInfo/userInfo.vue'),
                 meta: {
                     title: '人员信息',
-                    enTitle: 'userInfo',
-                    icon: 'el-icon-user'
+                    enTitle: 'userInfo'
                 }
             },
             {
@@ -133,8 +130,7 @@ const routes = [{
                     import ('../views/pay/pay.vue'),
                 meta: {
                     title: '薪酬管理',
-                    enTitle: 'payMent',
-                    icon: 'el-icon-price-tag'
+                    enTitle: 'payMent'
                 }
             }
         ]
@@ -173,9 +169,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
     let token = localStorage.getItem('adminToken')
-        // let isLock = sessionStorage.getItem('isLock')
-        // if (isLock !== '0' || to.path === '/lockView') next()
-        // else next('/lockView')
+    let isLock = localStorage.getItem('isLock')
+    if (isLock !== '0' || to.path === '/lockView') next()
+    else next('/lockView')
     if (to.path === '/login' || to.path === '/register' || to.path === '/findback') next()
     else token ? next() : next('/login')
 })

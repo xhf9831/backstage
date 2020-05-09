@@ -6,6 +6,8 @@ import ElementUI from 'element-ui';
 import api from './http/api'
 import dayjs from 'dayjs'
 import 'element-ui/lib/theme-chalk/index.css';
+import i18n from './i18n/i18n'
+import './bus'
 
 Vue.use(ElementUI)
 Vue.prototype.$api = api
@@ -15,5 +17,6 @@ Vue.config.productionTip = false
 new Vue({
     router,
     store,
+    i18n,
     render: h => h(App)
 }).$mount('#app')

@@ -10,12 +10,12 @@
     <template v-for="(item,idx) in menu">
       <el-menu-item @click="goto(item.url)" v-if="item.children.length === 0"  :key="idx" :index="item.index">
         <i :class="item.icon"></i>
-        <span slot="title">{{item.name}}</span>
+        <span slot="title">{{$t(`commons.${item.enName}`)}}</span>
       </el-menu-item>
       <el-submenu v-if="item.children.length !== 0" :index="item.index" :key="item.index">
         <template slot="title">
           <i :class="item.icon"></i>
-          <span>{{item.name}}</span>
+          <span>{{$t(`commons.${item.enName}`)}}</span>
         </template>
         <el-menu-item
         v-for="(itemx,indexx) in item.children"
@@ -24,7 +24,7 @@
         @click="goto(itemx.url)"
         >
           <i :class="itemx.icon"></i>
-          <span>{{itemx.name}}</span>
+          <span>{{$t(`commons.${itemx.enName}`)}}</span>
         </el-menu-item>
       </el-submenu>      
     </template>
@@ -54,6 +54,9 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
    },
    mounted() {
     this.getMenus()
+    this.$bus.$on('toggle', data => {
+      this.isCollapse = data
+    })
     let path = this.$route.path
     if (path === '/') {
       this.active = '1'

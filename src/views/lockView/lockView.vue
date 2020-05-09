@@ -1,6 +1,8 @@
 <template>
  <div>
-
+   <div>
+     <el-input v-model="unlock"></el-input>
+   </div>
  </div>
 </template>
 
@@ -8,7 +10,7 @@
  export default {
    data () {
      return {
-
+       unlock:''
      }
    },
    components: {
