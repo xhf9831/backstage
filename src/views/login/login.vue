@@ -120,7 +120,6 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
      ...loginActions(['getCaptcha','sendMsg','login','phoneLogin']),
      submitForm(){
        if(this.activeName === 'user'){
-         console.log(this.ruleForm);
          this.login(this.ruleForm).then(()=>{
           if(this.checked === true){
             localStorage.setItem('user',JSON.stringify(this.ruleForm))

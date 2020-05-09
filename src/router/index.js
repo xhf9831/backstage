@@ -13,7 +13,7 @@ const routes = [{
         path: '/home',
         component: common,
         children: [{
-            path: '/',
+            path: '',
             name: 'home',
             component: Home,
             meta: {
@@ -47,6 +47,118 @@ const routes = [{
         meta: {
             title: '找回密码'
         }
+    },
+    {
+        path: '/calendar',
+        component: common,
+        children: [{
+            path: '',
+            name: 'calendar',
+            component: () =>
+                import ('../views/calendar/calendar.vue'),
+            meta: {
+                title: '日程',
+                enTitle: 'calendar'
+            }
+        }],
+
+    },
+    {
+        path: '/mailList',
+        component: common,
+        children: [{
+            path: '',
+            name: 'mailList',
+            component: () =>
+                import ('../views/maillist/maillist.vue'),
+            meta: {
+                title: '通讯录',
+                enTitle: 'mailList'
+            }
+        }],
+    },
+    {
+        path: '/form',
+        component: common,
+        meta: {
+            title: '表单页',
+            enTitle: 'form',
+        },
+        children: [{
+            path: 'stepForm',
+            name: 'stepForm',
+            component: () =>
+                import ('../views/stepForm/stepForm.vue'),
+            meta: {
+                title: '分步表单',
+                enTitle: 'stepForm'
+            },
+        }],
+    },
+    {
+        path: '/organization',
+        component: common,
+        meta: {
+            title: '组织员工',
+            enTitle: 'organize',
+            icon: 'el-icon-folder-opened'
+        },
+        children: [{
+                path: 'offer',
+                name: 'offer',
+                component: () =>
+                    import ('../views/offer/offer.vue'),
+                meta: {
+                    title: 'offer管理',
+                    enTitle: 'offer',
+                    icon: 'el-icon-folder-opened'
+                }
+            },
+            {
+                path: 'userInfo',
+                name: 'userInfo',
+                enTitle: 'userInfo',
+                component: () =>
+                    import ('../views/userInfo/userInfo.vue'),
+                meta: {
+                    title: '人员信息',
+                    enTitle: 'userInfo',
+                    icon: 'el-icon-user'
+                }
+            },
+            {
+                path: 'pay',
+                name: 'pay',
+                component: () =>
+                    import ('../views/pay/pay.vue'),
+                meta: {
+                    title: '薪酬管理',
+                    enTitle: 'payMent',
+                    icon: 'el-icon-price-tag'
+                }
+            }
+        ]
+    },
+    {
+        path: '/lockView',
+        name: 'lockView',
+        component: () =>
+            import ('../views/lockView/lockView'),
+        meta: {
+            title: '锁屏'
+        },
+    },
+    {
+        path: '*',
+        component: common,
+        meta: {
+            title: '错误页面'
+        },
+        children: [{
+            path: '',
+            component: () =>
+                import ('../views/err/404.vue')
+        }]
     }
 ]
 

@@ -80,7 +80,9 @@ export default {
         //获取菜单
         async getMenus({ commit }) {
             let res = await api.getMenus()
-            console.log(res);
+            if (res.code === 200) {
+                commit('setMenu', res.data)
+            }
         }
     }
 }
