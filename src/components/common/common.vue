@@ -43,6 +43,6 @@ import navhead from '../navhead/navhead';
 <style scoped lang='scss'>
 .col{
   width: auto !important;
-  transition: all .3s;
+  transition: width 1.5s !important;
 }
 </style>

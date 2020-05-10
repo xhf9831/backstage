@@ -6,6 +6,7 @@
 
 <style lang="scss">
 @import './style/common';
+@import "./style/animate";
 .box{
   display: flex;
 }
@@ -16,5 +17,8 @@
   &-arround{
     justify-content: space-around;
   }
+}
+.a-center {
+  text-align: center;
 }
 </style>

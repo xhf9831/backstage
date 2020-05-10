@@ -12,3 +12,9 @@
         width: 100%;
     }
 }
+
+.el_border {
+    .el-menu {
+        border-right: none !important;
+    }
+}

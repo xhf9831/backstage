@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="el_border">
   <el-menu
     :default-active="active"
     class="el-menu-vertical-demo"

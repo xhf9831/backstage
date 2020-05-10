@@ -2,8 +2,8 @@
  <div class="top box space-between">
    <div class="box">
      <div @click="changeIscoll">
-      <i v-if="!isCollapse" class="te iconsize el-icon-s-fold"></i> 
-      <i v-else class="te iconsize el-icon-s-unfold"></i> 
+      <i v-if="!isCollapse" class="iconsize el-icon-s-fold"></i> 
+      <i v-else class="iconsize el-icon-s-unfold"></i> 
      </div>
      <div class="font">
        {{$t('commons.xiaoai')}}{{$t('commons.admin')}}
@@ -67,7 +67,8 @@ import screenfull from 'screenfull'
           lockpass:[
             {required:true, message: '请输入密码', trigger: 'blur'}
           ]
-        }
+        },
+        user:''
      }
    },
    components: {
@@ -100,7 +101,8 @@ import screenfull from 'screenfull'
      }
    },
    mounted() {
-
+     this.user = JSON.parse(localStorage.getItem('adminUser'))
+     console.log(this.user); 
    },
    watch: {
 
@@ -112,12 +114,12 @@ import screenfull from 'screenfull'
 </script>
 
 <style scoped lang='scss'>
-.te{
-  padding-top: 2px;
-}
 .top{
   align-items: center;
   padding-right: 20px;
+  height: 60px;
+  border-bottom: 1px solid #f0f2f5;
+  color: #2e5e85;
 }
 .iconsize{
   font-size: 22px;
@@ -125,6 +127,7 @@ import screenfull from 'screenfull'
 .font{
   font-size: 18px;
   padding-left: 30px;
+  line-height: 20px;
 }
 .item{
   margin:0 5px;
