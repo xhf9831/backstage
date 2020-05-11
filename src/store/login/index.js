@@ -83,6 +83,16 @@ export default {
             if (res.code === 200) {
                 commit('setMenu', res.data)
             }
+        },
+        //修改密码
+        async updatePwd({ commit }, parmas) {
+            let res = await api.updatePwd(parmas)
+            if (res.code === 200) {
+                Message.success(res.msg)
+                router.push('/login')
+            } else {
+                Message.error(res.msg)
+            }
         }
     }
 }

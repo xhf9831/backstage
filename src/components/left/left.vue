@@ -20,7 +20,7 @@
         <el-menu-item
         v-for="(itemx,indexx) in item.children"
         :key="indexx"
-        :index="item.index"
+        :index="itemx.index"
         @click="goto(itemx.url)"
         >
           <i :class="itemx.icon"></i>
@@ -82,6 +82,9 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
    },
    watch: {
 
+   },
+   created(){
+ 
    },
    computed: {
      ...loginState(['menu'])

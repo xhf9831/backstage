@@ -4,7 +4,10 @@
     <el-aside width="200px" :class="isCollapse? 'col':''"><left></left></el-aside>
     <el-container>
       <el-header><navhead></navhead></el-header>
-      <el-main><router-view></router-view></el-main>
+      <el-main>
+        <navcommon></navcommon>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
  </div>
@@ -13,6 +16,7 @@
 <script>
 import left from '../left/left';
 import navhead from '../navhead/navhead';
+import navcommon from '../navcommon/navcommon';
  export default {
    data () {
      return {
@@ -21,7 +25,8 @@ import navhead from '../navhead/navhead';
    },
    components: {
      left,
-     navhead
+     navhead,
+     navcommon
    },
    methods: {
 

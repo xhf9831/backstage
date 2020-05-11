@@ -17,8 +17,14 @@
   &-arround{
     justify-content: space-around;
   }
+  &-center{
+    justify-content: center;
+  }
 }
 .a-center {
+  align-items: center;
+}
+.t-center{
   text-align: center;
 }
 </style>

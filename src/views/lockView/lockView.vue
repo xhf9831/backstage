@@ -1,9 +1,9 @@
 <template>
-  <div class="container flex a-center j-center">
+  <div class="container box a-center space-center">
     <div :class="{'bounceOut': correct}" class="animated">
       <div class="content">
         <h2>admin</h2>
-        <div class="a-center desc animated" :class="{'shake':flag}">
+        <div class="box a-center desc animated" :class="{'shake':flag}">
           <el-input type="password" placeholder="请输入锁屏密码" v-model="unlock">
             <el-button slot="append" icon="el-icon-right" @click="unlockPage"></el-button>            
           </el-input>
@@ -63,7 +63,6 @@
 <style scoped lang='scss'>
   .container {
     height: 100vh;
-    width: 240px;
     .content {
       animation: down .8s linear;
       h2 {
@@ -71,10 +70,6 @@
       }
       .desc {
         height: 40px;
-        .btn {
-          border-left: none;
-          height: 42px;
-        }
       }
     }
   }

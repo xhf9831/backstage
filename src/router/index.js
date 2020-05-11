@@ -17,7 +17,8 @@ const routes = [{
             name: 'home',
             component: Home,
             meta: {
-                title: '首页'
+                title: '首页',
+                enTitle: 'dashboard'
             },
         }]
     },
