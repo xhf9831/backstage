@@ -1,18 +1,22 @@
 <template>
- <div class="box space-arround">
-   <div class="item box" v-for="(item,index) in countdata" :key="index" @click="changeActive(index)">
-     <div class="left">
-       <div class="title">
-         {{ $t(`commons.${item.enTitle}`)}}({{ $t(`commons.dollar`)}})
-       </div>
-       <div class="money">
-         <div v-if="active === index">
-           ￥<countTo :startVal='startVal' :endVal='item.money'></countTo>
-         </div>
-         <div v-else>￥{{item.money | tmoeny}}</div>
-       </div>
-     </div>
-     <div class="right">
+ <div class="content a-center box space-between">
+    <div class="item box space-center" v-for="(item, index) in countdata" :key="index">
+      <div class="desc box space-center a-center" :class="{'bor-top': active === index}" :style="{borderColor: item.barColor}"
+           @click="active=index">
+        <div class="con box space-center">
+          <div class="c-title">
+            {{ $t(`commons.${item.enTitle}`)}}({{ $t(`commons.dollar`)}})
+          </div>
+          <div class="money">
+            <div v-if="active === index">
+              ￥
+              <count-to :startVal='startVal' :endVal='item.money'></count-to>
+            </div>
+            <div v-else>
+              ￥{{item.money | tmoney}}
+            </div>
+          </div>
+        </div>
         <div v-show="active !== index">
           <circle-progress
               :id="item.id"
@@ -46,9 +50,9 @@
         <div class="p-desc" v-if="active === index">
           {{ $t(`commons.${item.desc}`)}}
         </div>
-        <div class="line" v-if="index < 2"></div>       
-     </div>
-   </div>
+        <div class="line" v-if="index < 2"></div>
+      </div>
+    </div>
  </div>
 </template>
 
@@ -85,7 +89,7 @@ const {mapActions:homeActions,mapState:homeState} = homeModule
      ...homeState(['countdata'])
    },
    filters:{
-     tmoeny(money){
+     tmoney(money){
        if(money && money !== null){
           money = String(money)
           let left = money.split('.')[0], right = money.split('.')[1]
@@ -103,18 +107,59 @@ const {mapActions:homeActions,mapState:homeState} = homeModule
 </script>
 
 <style scoped lang='scss'>
-.item{
-  .left{
-    .title{
-      margin: 10px 0;
-      font-size: 14px;
-      color: #ccc;
-    }
-    .money{
+.content {
+  width: 100%;
+  background: #fff;
+  .item {
+    flex: 1;
+    .desc {
+      width: 100%;
+      height: 120px;
       position: relative;
-      right: 4px;
-      margin: 10px 0;
+      font-size: 12px;
+      .line {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 24px;
+        background: #ccc;
+      }
+      .con {
+        position: absolute;
+        height: 120px;
+        width: 200px;
+        left: 10%;
+        flex-direction: column;
+        font-size: 20px;
+        .c-title {
+          margin: 10px 0;
+          font-size: 14px;
+          color: #ccc;
+        }
+        .money {
+          position: relative;
+          right: 4px;
+          margin: 10px 0;
+        }
+      }
+      .num {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+      }
+      .p-desc {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+      }
     }
   }
+}
+.bor-top {
+  border-top: 8px solid;
 }
 </style>
