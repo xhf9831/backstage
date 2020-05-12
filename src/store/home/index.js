@@ -8,7 +8,8 @@ export default {
         countdata: '',
         citydata: [],
         reports: [],
-        reportuser: []
+        reportuser: [],
+        question: []
     },
     mutations: {
         setCount(state, data) {
@@ -22,6 +23,9 @@ export default {
         },
         setReportuser(state, data) {
             state.reportuser = data
+        },
+        setQuestion(state, data) {
+            state.question = data
         }
     },
     actions: {
@@ -86,6 +90,14 @@ export default {
             let res = await api.addDynamic(params)
             if (res.code === 200) {
                 Message.success(res.msg)
+            }
+        },
+        //获取问卷
+        async getQuestion({ commit }) {
+            let res = await api.getQuestion()
+            if (res.code === 200) {
+                console.log(res.data);
+                commit('setQuestion', res.data)
             }
         }
     }
