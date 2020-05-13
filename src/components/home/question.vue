@@ -64,12 +64,15 @@
         :visible.sync="webmsg"
     >
       <div>
-        <div class="top box">
+        <div class="top box a-center">
           <div class="input">
             <el-input v-model="url" size="mini"></el-input>
           </div>
           <div>
-            <el-button type="danger" size="small">
+            <el-button type="danger" size="small"
+            v-clipboard:copy="url"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError">
               复制
             </el-button>
           </div>
@@ -78,11 +81,11 @@
           如无法使用上方复制按钮，请选中内容后，使用 Ctrl + C 复制。也可扫描下方二维码或右键保存二维码进行访问。
         </div>
       </div>
-      <div class="code">
+      <div class="code box space-center a-center">
         <div id='qrcode' ref="qrcode"></div>
       </div>
       <span slot="footer" class="dialog-footer">
-      <el-button @click="webmsg = false">取 消</el-button>
+      <el-button @click="sureMsg">取 消</el-button>
       <el-button type="primary" @click="sureMsg">确 定</el-button>
     </span>
     </el-dialog>
@@ -90,6 +93,7 @@
 </template>
 
 <script>
+import QRCode from 'qrcodejs2'
 import {createNamespacedHelpers} from 'vuex'
 const homeModule = createNamespacedHelpers('home')
 const {mapActions:homeActions,mapState:homeState} = homeModule
@@ -97,7 +101,8 @@ const {mapActions:homeActions,mapState:homeState} = homeModule
    data () {
      return {
        webmsg:false,
-       url:''
+       url:'',
+       qrcode:''
      }
    },
    components: {
@@ -113,17 +118,21 @@ const {mapActions:homeActions,mapState:homeState} = homeModule
       })
      },
      sureMsg(){
-
+        this.webmsg = false
+        this.$refs.qrcode.innerHTML = ''
      },
      qrcodeScan() { // 生成二维码
-      findShopInfo().then(res => {
-      new QRCode(document.getElementById('qrcode'), {
+      this.qrcode = new QRCode('qrcode', {
           text: this.url, // 二维码地址
-          width: 100, // 二维码宽度
-          height: 100, // 二维码高度
-          correctLevel: QRCode.CorrectLevel.H // 二维码容错级别 H M L
+          width: 200, // 二维码宽度
+          height: 200, // 二维码高度
         })
-      })
+    },
+    onCopy(){
+      this.$message.success('复制成功')
+    },
+    onError(){
+      this.$message.success('复制失败')
     }
    },
    mounted() {
@@ -139,5 +148,29 @@ const {mapActions:homeActions,mapState:homeState} = homeModule
 </script>
 
 <style scoped lang='scss'>
-
+.top {
+  width: 100%;
+  .input {
+    flex: 1;
+    margin-right: 20px;
+  }
+}
+.desc {
+  background: #EBF5FF;
+  color: #657180;
+  font-size: 14px;
+  padding: 15px 10px;
+  margin-top: 20px;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+.code {
+  height: 200px;
+  width: 100%;
+  margin-top: 20px;
+  #code {
+    width: 200px;
+    height: 200px;
+  }
+}
 </style>

@@ -9,7 +9,7 @@
       <personaldynamic></personaldynamic>      
     </div>
   </div>
-  <div>
+  <div style="margin-top:20px;">
     <question></question>
   </div>
  </div>
