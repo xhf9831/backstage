@@ -45,7 +45,7 @@
           <img class="header" src="../../assets/userhead.png" alt="">
         </div>
         <div class="username">
-          亲爱的{{user.username}}
+          {{$t('commons.dear')}}{{user.username}}
         </div>
         <div class="username">
           <i class="el-icon-caret-bottom"></i>

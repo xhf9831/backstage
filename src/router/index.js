@@ -111,6 +111,7 @@ const routes = [{
                 meta: {
                     title: 'offer管理',
                     enTitle: 'offer',
+                    icon: 'el-icon-folder-opened'
                 }
             },
             {
@@ -121,7 +122,8 @@ const routes = [{
                     import ('../views/userInfo/userInfo.vue'),
                 meta: {
                     title: '人员信息',
-                    enTitle: 'userInfo'
+                    enTitle: 'userInfo',
+                    icon: 'el-icon-user'
                 }
             },
             {
@@ -131,7 +133,8 @@ const routes = [{
                     import ('../views/pay/pay.vue'),
                 meta: {
                     title: '薪酬管理',
-                    enTitle: 'payMent'
+                    enTitle: 'payMent',
+                    icon: 'el-icon-price-tag'
                 }
             }
         ]
