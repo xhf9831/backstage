@@ -25,114 +25,114 @@
         <el-button size="mini" round type="primary">已入职offer ({{entry}})</el-button>
       </div>
       <div class="table">
-          <el-table
-              :row-style="rowStyle"
-              ref="multipleTable"
-              :data="tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)"
-              element-loading-spinner="el-icon-loading"
-              tooltip-effect="dark"
-              style="width: 100%"
-              @selection-change="handleSelectionChange">
-            <el-table-column
-                show-overflow-tooltip
-                type="selection"
-                width="55">
-            </el-table-column>
-            <template>
-              <el-table-column
-                  :show-overflow-tooltip="true"
-                  v-for="(item, index) in tableLabel"
-                  :prop="item.prop"
-                  :label="item.label"
-                  :key="index"
-                  align="center">
-              </el-table-column>
-            </template>
-            <el-table-column align="right">
-              <template slot="header">
-                <el-popover
-                    v-model="show"
-                    placement="bottom"
-                    width="200"
-                    trigger="click">
-                  <div>
-                    <div
-                        style="font-size:12px;cursor:pointer;display: flex;align-items: center;justify-content: space-between;border-bottom: 1px solid #eee;padding-bottom: 6px">
-                      <el-popover
-                          v-model="showAdd"
-                          placement="right"
-                          trigger="click">
-                        <div>
-                          <div v-if="noSelectData.length > 0">
-                            <div class="select box a-center" v-for="(item, index) in noSelectData" :key="index">
-                              <el-checkbox-group v-model="checkList" @change="changeSelect">
-                                <el-checkbox :label="item" style="margin: 5px 0;"></el-checkbox>
-                              </el-checkbox-group>
-                            </div>
-                          </div>
-                          <div v-else>暂无数据</div>
-                          <div style="margin-top: 10px;text-align: right">
-                            <el-button type="primary" size="mini" @click="add">确定</el-button>
-                          </div>
-                        </div>
-                        <div style="color: #004F9E" slot="reference">
-                          添加显示字段
-                        </div>
-                      </el-popover>
-                      <el-popover
-                          v-model="showDel"
-                          placement="right"
-                          trigger="click">
-                        <div>
-                          <div>
-                            <div v-if="selectData.length > 0" >
-                              <div class="select box a-center" v-for="(item, index) in selectData" :key="index">
-                                <el-checkbox-group v-model="noCheckList" @change="changeNoSelect">
-                                  <el-checkbox :label="item" style="margin: 5px 0;"></el-checkbox>
-                                </el-checkbox-group>                                
-                              </div>
-                            </div>
-                            <div v-else>暂无数据</div>
-                          </div>
-                          <div style="margin-top: 10px;text-align: right">
-                            <el-button type="primary" size="mini" @click="del">确定</el-button>
-                          </div>
-                        </div>
-                        <div style="color: #004F9E" slot="reference">
-                          删除显示字段
-                        </div>
-                      </el-popover>
-                    </div>
-                    <div style="margin-top: 8px;cursor: pointer;">
-                      <div style="margin: 4px 0">选择间距类型</div>
-                      <div style="display: flex;align-items: center;justify-content: space-around;">
-                        <div :class="{color: activeIndex === 1}" @click="setHeight(1, 20)">
-                          紧凑
-                        </div>
-                        <div :class="{color: activeIndex === 2}" @click="setHeight(2, 60)">
-                          适中
-                        </div>
-                        <div :class="{color: activeIndex === 3}" @click="setHeight(3, 100)">
-                          宽松
+        <el-table
+          :row-style="rowStyle"
+          ref="multipleTable"
+          :data="tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)"
+          element-loading-spinner="el-icon-loading"
+          tooltip-effect="dark"
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
+        <el-table-column
+            show-overflow-tooltip
+            type="selection"
+            width="55">
+        </el-table-column>
+        <template>
+          <el-table-column
+              :show-overflow-tooltip="true"
+              v-for="(item, index) in tableLabel"
+              :prop="item.prop"
+              :label="item.label"
+              :key="index"
+              align="center">
+          </el-table-column>
+        </template>
+        <el-table-column align="right">
+          <template slot="header">
+            <el-popover
+                v-model="show"
+                placement="bottom"
+                width="200"
+                trigger="click">
+              <div>
+                <div
+                    style="font-size:12px;cursor:pointer;display: flex;align-items: center;justify-content: space-between;border-bottom: 1px solid #eee;padding-bottom: 6px">
+                  <el-popover
+                      v-model="showAdd"
+                      placement="right"
+                      trigger="click">
+                    <div>
+                      <div v-if="noSelectData.length > 0">
+                        <div class="select box a-center" v-for="(item, index) in noSelectData" :key="index">
+                          <el-checkbox-group v-model="checkList" @change="changeSelect">
+                            <el-checkbox :label="item" style="margin: 5px 0;"></el-checkbox>
+                          </el-checkbox-group>
                         </div>
                       </div>
+                      <div v-else>暂无数据</div>
+                      <div style="margin-top: 10px;text-align: right">
+                        <el-button type="primary" size="mini" @click="add">确定</el-button>
+                      </div>
+                    </div>
+                    <div style="color: #004F9E" slot="reference">
+                      添加显示字段
+                    </div>
+                  </el-popover>
+                  <el-popover
+                      v-model="showDel"
+                      placement="right"
+                      trigger="click">
+                    <div>
+                      <div>
+                        <div v-if="selectData.length > 0" >
+                          <div class="select box a-center" v-for="(item, index) in selectData" :key="index">
+                            <el-checkbox-group v-model="noCheckList" @change="changeNoSelect">
+                              <el-checkbox :label="item" style="margin: 5px 0;"></el-checkbox>
+                            </el-checkbox-group>                                
+                          </div>
+                        </div>
+                        <div v-else>暂无数据</div>
+                      </div>
+                      <div style="margin-top: 10px;text-align: right">
+                        <el-button type="primary" size="mini" @click="del">确定</el-button>
+                      </div>
+                    </div>
+                    <div style="color: #004F9E" slot="reference">
+                      删除显示字段
+                    </div>
+                  </el-popover>
+                </div>
+                <div style="margin-top: 8px;cursor: pointer;">
+                  <div style="margin: 4px 0">选择间距类型</div>
+                  <div style="display: flex;align-items: center;justify-content: space-around;">
+                    <div :class="{color: activeIndex === 1}" @click="setHeight(1, 20)">
+                      紧凑
+                    </div>
+                    <div :class="{color: activeIndex === 2}" @click="setHeight(2, 60)">
+                      适中
+                    </div>
+                    <div :class="{color: activeIndex === 3}" @click="setHeight(3, 100)">
+                      宽松
                     </div>
                   </div>
-                  <div slot="reference" class="c-item box a-center">
-                    <div class="t-icon" @click="setTable">
-                      <i class="el-icon-setting"></i>
-                    </div>
-                  </div>
-                </el-popover>
+                </div>
+              </div>
+              <div slot="reference" class="c-item box a-center">
+                <div class="t-icon" @click="setTable">
+                  <i class="el-icon-setting"></i>
+                </div>
+              </div>
+            </el-popover>
 
-              </template>
-            </el-table-column>
-          </el-table>
-          <pagination :tableData="tableData" @getPageSize="getPageSize" @getCurrentPage="getCurrentPage"
-                      style="margin-top:16px;">
-          </pagination>
-        </div>
-     </el-card>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination :tableData="tableData" @getPageSize="getPageSize" @getCurrentPage="getCurrentPage"
+                  style="margin-top:16px;">
+      </pagination>
+     </div>
+    </el-card>
    </div>
  </div>
 </template>
