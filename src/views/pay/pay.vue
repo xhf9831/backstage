@@ -26,6 +26,9 @@
         </el-date-picker>
       </div>
     </div>
+    <div class="h-desc">
+      如果有更多的渠道请自行添加, 所有添加的渠道会显示在CRM系统中
+    </div>
   </div>
 </div>
 </template>
@@ -96,28 +99,28 @@
     }
   }
   .header {
-  margin-top: 24px;
-  background: #fff;
-  .h-con {
-    .h-title {
-      font-size: 24px;
-      font-weight: 700;
+    margin-top: 24px;
+    background: #fff;
+    .h-con {
+      .h-title {
+        font-size: 24px;
+        font-weight: 700;
+        padding-left: 15px;
+        height: 80px;
+        line-height: 80px;
+      }
+      .h-time {
+        position: relative;
+        right: 30px;
+      }
+    }
+    .h-desc {
+      background: #E5F2E1;
+      height: 50px;
+      line-height: 50px;
       padding-left: 15px;
-      height: 80px;
-      line-height: 80px;
-    }
-    .h-time {
-      position: relative;
-      right: 30px;
+      font-size: 14px;
     }
   }
-  .h-desc {
-    background: #E5F2E1;
-    height: 50px;
-    line-height: 50px;
-    padding-left: 15px;
-    font-size: 14px;
-  }
-}
 }
 </style>
