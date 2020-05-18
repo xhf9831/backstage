@@ -30,13 +30,105 @@
       如果有更多的渠道请自行添加, 所有添加的渠道会显示在CRM系统中
     </div>
   </div>
+  <div class="content">
+    <el-card>
+      <div class="c-title">
+        薪资结构
+      </div>
+      <el-table style="width: 100%" ref="table" :data="pay" @cell-click="cellClick">
+        <el-table-column
+            label="薪资构成"
+            align="center"
+        >
+          <template slot-scope="scope">
+            <div v-if="!scope.row.isNameEdit">
+              {{scope.row.name}}
+            </div>
+            <div v-else>
+              <el-input v-model="scope.row.name" ref="refName" size="small" @blur="nameBlur(scope.row)"
+                        @keyup.enter.native="keyName"></el-input>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="计划支出(元)"
+            align="center"
+        >
+          <template slot-scope="scope">
+            <div v-if="!scope.row.isPlanEdit">
+              {{scope.row.planMoney}}
+            </div>
+            <div v-else>
+              <el-input v-model="scope.row.planMoney" ref="refPlan" size="small" @blur="planBlur(scope.row)"
+                        @keyup.enter.native="keyPlan"></el-input>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="实际支出(元)"
+            align="center"
+        >
+          <template slot-scope="scope">
+            <div v-if="!scope.row.isActualEdit">
+              {{scope.row.actualMoney}}
+            </div>
+            <div v-else>
+              <el-input v-model="scope.row.actualMoney" ref="refActual" size="small" @blur="actualBlur(scope.row)"
+                        @keyup.enter.native="keyActual"></el-input>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column></el-table-column>
+        <el-table-column></el-table-column>
+        <el-table-column></el-table-column>
+        <el-table-column
+            label="上月计划(元)"
+            align="center"
+        >
+          <template slot-scope="scope">
+            <div style="cursor: not-allowed;color: #ccc">
+              {{scope.row.lastMonth}}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="上月实际(元)"
+            align="center"
+        >
+          <template slot-scope="scope">
+            <div style="cursor: not-allowed;color: #ccc">
+              {{scope.row.thisMonth}}
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="btn">
+        <el-button type="primary" @click="add">添加更多</el-button>
+        <el-button type="primary" @click="cal" v-if="flag">取消</el-button>
+      </div>
+      <div class="all box a-center">
+        <div class="all-item">总计</div>
+        <div class="all-item">{{planMoney}}</div>
+        <div class="all-item">{{actualMoney}}</div>
+        <div class="all-item"></div>
+        <div class="all-item"></div>
+        <div class="all-item"></div>
+        <div class="all-item">{{lastMonthMoney}}</div>
+        <div class="all-item">{{thisMonthMoney}}</div>
+      </div>
+    </el-card>
+  </div>
 </div>
 </template>
 
 <script>
+import {createNamespacedHelpers} from 'vuex'
+const payModule = createNamespacedHelpers('pay')
+const {mapActions:payActions,mapState:payState} = payModule
  export default {
    data () {
      return {
+       flag:false,
        icon:'',
        title:'',
        month:'',
@@ -56,27 +148,104 @@
             }
           }]
         },
+        planMoney:0,
+        actualMoney:0,
+        lastMonthMoney:0,
+        thisMonthMoney:0,
      }
    },
    components: {
 
    },
    methods: {
+     ...payActions(['getPay']),
      changeMonth(val){
        this.month = this.$dayjs(val).format('YYYY年MM月')
        console.log(this.month);
-     }
+     },
+     getData(){
+       this.getPay().then(()=>{
+         this.pay.map(item => {
+            this.$set(item, 'isPlanEdit', false)
+            this.$set(item, 'isNameEdit', false)
+            this.$set(item, 'isActualEdit', false)
+            this.$set(item, 'isLastEdit', false)
+            this.$set(item, 'isThisEdit', false)
+            this.planMoney += item.planMoney
+            this.actualMoney += item.actualMoney
+            this.lastMonthMoney += item.lastMonth
+            this.thisMonthMoney += item.thisMonth
+          })
+       })
+     },
+     add() {
+        this.flag = true
+        this.pay.push({
+          isPlanEdit: true,
+          isActualEdit: true,
+          isNameEdit: true,
+          name: '',
+          planMoney: '',
+          actualMoney: '',
+          lastMonth: 0,
+          thisMonth: 0
+        })
+      },
+      cal() {
+        this.flag = false
+        this.pay.pop()
+      },
+      cellClick(row, column, cell, event) {
+        if (column.label === '计划支出(元)') {
+          row.isPlanEdit = true
+        }
+        if (column.label === '实际支出(元)') {
+          row.isActualEdit = true
+        }
+      },
+      nameBlur(item) {
+        item.isNameEdit = false
+        this.$message.success('操作成功')
+      },
+      planBlur(item) {
+        item.planMoney = Number(item.planMoney)
+        item.isPlanEdit = false
+        this.planMoney = 0
+        this.pay.map(item => {
+          this.planMoney += item.planMoney
+        })
+        this.$message.success('修改成功')
+      },
+      actualBlur(item) {
+        item.actualMoney = Number(item.actualMoney)
+        item.isActualEdit = false
+        this.actualMoney = 0
+        this.pay.map(item => {
+          this.actualMoney += item.actualMoney
+        })
+        this.$message.success('修改成功')
+      },
+      keyPlan() {
+        this.$refs.refPlan.blur()
+      },
+      keyActual() {
+        this.$refs.refActual.blur()
+      },
+      keyName() {
+        this.$refs.refName.blur()
+      },
    },
    mounted() {
      this.icon = this.$route.meta.icon
      this.title = this.$route.meta.enTitle
      this.selectMonth = this.month = this.$dayjs(new Date()).format('YYYY年MM月')
+     this.getData()
    },
    watch: {
 
    },
    computed: {
-
+     ...payState(['pay'])
    }
  }
 </script>
@@ -122,5 +291,31 @@
       font-size: 14px;
     }
   }
+  .content {
+    .c-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .btn {
+      position: relative;
+      left: 3.5%;
+      margin-top: 20px;
+    }
+
+    .all {
+      margin-top: 20px;
+      color: #0285DC;
+
+      .all-item {
+        text-align: center;
+        flex: 1;
+      }
+    }
+  }
+}
+.el-table {
+  border: 1px solid #eee;
+  margin-top: 40px;
 }
 </style>
