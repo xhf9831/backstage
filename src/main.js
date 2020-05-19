@@ -11,7 +11,9 @@ import './bus'
 import VCharts from 'v-charts'
 import lodash from 'lodash'
 import VueClipboard from 'vue-clipboard2'
+import Print from 'vue-print-nb'
 
+Vue.use(Print);
 Vue.use(VueClipboard)
 Vue.use(VCharts)
 Vue.use(ElementUI)

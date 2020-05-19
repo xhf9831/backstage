@@ -86,15 +86,26 @@ const routes = [{
             enTitle: 'form',
         },
         children: [{
-            path: 'stepForm',
-            name: 'stepForm',
-            component: () =>
-                import ('../views/stepForm/stepForm.vue'),
-            meta: {
-                title: '分步表单',
-                enTitle: 'stepForm'
+                path: 'stepForm',
+                name: 'stepForm',
+                component: () =>
+                    import ('../views/stepForm/stepForm.vue'),
+                meta: {
+                    title: '分步表单',
+                    enTitle: 'stepForm'
+                },
             },
-        }],
+            {
+                path: 'checkForm',
+                name: 'checkForm',
+                component: () =>
+                    import ('../views/stepForm/checkForm.vue'),
+                meta: {
+                    title: '查看账单',
+                    enTitle: 'checkForm',
+                },
+            }
+        ],
     },
     {
         path: '/organization',

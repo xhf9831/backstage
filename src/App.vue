@@ -7,6 +7,7 @@
 <style lang="scss">
 @import './style/common';
 @import "./style/animate";
+@import "./style/introjs";
 .box{
   display: flex;
 }

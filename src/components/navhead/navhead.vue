@@ -1,7 +1,7 @@
 <template>
  <div class="top box space-between">
    <div class="box">
-     <div @click="changeIscoll">
+     <div @click="changeIscoll" data-step="1" data-intro="收缩菜单">
       <i v-if="!isCollapse" class="iconsize el-icon-s-fold"></i> 
       <i v-else class="iconsize el-icon-s-unfold"></i> 
      </div>
@@ -11,7 +11,7 @@
    </div>
    <div class="box">
      <div class="item">
-      <el-dropdown @command="changeFont">
+      <el-dropdown @command="changeFont" data-step="2" data-intro="切换语言">
         <span class="el-dropdown-link">
           <i class="iconsize el-icon-edit-outline"></i>
         </span>
@@ -22,21 +22,21 @@
         </el-dropdown-menu>
       </el-dropdown>       
      </div>
-     <div class="item">
+     <div class="item" data-step="3" data-intro="设置全屏">
       <el-tooltip 
       effect="dark" 
       :content="fullscreen? '取消全屏' : '全屏'">
         <i class="iconsize el-icon-full-screen"  @click="handleClick"></i>
       </el-tooltip>
      </div>
-     <div class="item">
+     <div class="item" data-step="4" data-intro="设置锁屏">
       <el-tooltip 
       effect="dark" 
       content="锁屏">
         <i class="iconsize el-icon-lock" @click="lockView = true"></i>
       </el-tooltip>       
      </div>
-     <el-dropdown @command="selectAction">
+     <el-dropdown @command="selectAction"  data-step="5" data-intro="用户操作">
       <div class="box">
         <div class="box headimg space-center" v-if="user.avatar">
           <img class="header" :src="user.avatar" alt="">
@@ -93,12 +93,20 @@
       <el-button @click="editpwd = false">取 消</el-button>
       <el-button type="primary" @click="submitNewpwd">确 定</el-button>
     </div>
+  </el-dialog>
+  <el-dialog :visible.sync="show" width="30%" :show-close="false">
+    <div class="box a-center j-center">您需要系统引导吗?</div>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="noIntro"  size="small">不再提示</el-button>
+      <el-button type="primary" size="small" @click="sure">确 定</el-button>
+    </span>
   </el-dialog>    
  </div>
 </template>
 
 <script>
 import screenfull from 'screenfull'
+import introJs from 'intro.js'
 import {createNamespacedHelpers} from 'vuex'
 const loginModule = createNamespacedHelpers('login')
 const {mapActions:loginActions,mapState:loginState} = loginModule
@@ -138,7 +146,8 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
             { min: 6, message: '密码至少6位', trigger: 'blur' }
           ],
         },
-        formLabelWidth:'110px'
+        formLabelWidth:'110px',
+        show:false
      }
    },
    components: {
@@ -207,10 +216,28 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
         //  console.log(parmas);
          this.updatePwd(parmas)
        }
-     }
+     },
+     noIntro() {
+      this.show = false
+      localStorage.setItem('showIntro', 1)
+     },
+     sure() {
+      this.show = false
+      introJs().setOptions({
+        prevLabel: "上一步",
+        nextLabel: "下一步",
+        skipLabel: "跳过",
+        doneLabel: "结束"
+      }).oncomplete(function () {
+        //点击跳过按钮后执行的事件
+      }).onexit(function () {
+        //点击结束按钮后， 执行的事件
+      }).start()
+    },
    },
    mounted() {
      this.user = JSON.parse(localStorage.getItem('adminUser'))
+     if (!localStorage.showIntro) this.show = true
    },
    watch: {
 
