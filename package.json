@@ -7,6 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^4.4.0",
+    "@fullcalendar/interaction": "^4.4.0",
+    "@fullcalendar/moment": "^4.4.0",
+    "@fullcalendar/timegrid": "^4.4.0",
+    "@fullcalendar/vue": "^4.4.0",
     "@types/intro.js": "^2.4.6",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",

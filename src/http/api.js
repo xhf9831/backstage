@@ -71,15 +71,15 @@ export default {
     },
     //获取日程
     getCalendar() {
-        return service.get('/calendar')
+        return service.get('/api/calendar')
     },
     //添加日程
     addCalendar(params) {
-        return service.post('/calendar', params)
+        return service.post('/api/calendar', params)
     },
     //重复上周
     repeatDynamic(params) {
-        return service.post('/repeatDynamic', params)
+        return service.post('/api/repeatDynamic', params)
     },
     //删除日程
     delCalendar(params) {

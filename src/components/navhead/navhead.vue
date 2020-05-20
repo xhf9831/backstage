@@ -183,6 +183,7 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
        if(command === 'logout'){
         this.$message.success('欢迎下次光临')
         localStorage.removeItem('adminToken')
+        localStorage.removeItem('showIntro')
         this.$router.push('/login')         
        }else if(command === 'editPwd'){
          this.editpwd = true
@@ -200,6 +201,7 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
         this.user.avatar = res.url
         localStorage.setItem('adminUser', JSON.stringify(this.user))
         this.$message.success('上传成功')
+        this.$router.go(0)
        }
      },
      submitNewpwd(){
@@ -229,9 +231,9 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
         skipLabel: "跳过",
         doneLabel: "结束"
       }).oncomplete(function () {
-        //点击跳过按钮后执行的事件
+        localStorage.setItem('showIntro', 1)//点击跳过按钮后执行的事件
       }).onexit(function () {
-        //点击结束按钮后， 执行的事件
+        localStorage.setItem('showIntro', 1)//点击结束按钮后， 执行的事件
       }).start()
     },
    },
