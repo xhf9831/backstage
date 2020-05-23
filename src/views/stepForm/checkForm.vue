@@ -8,16 +8,16 @@
         <div>
           <div class="desc box space-center" id="printContet">
             <div class="item">
-              付款账户 : {{formInfo.payment}}
+              付款账户 : {{form.payment}}
             </div>
             <div class="item">
-              收款账户 : {{formInfo.collection}}
+              收款账户 : {{form.collection}}
             </div>
             <div class="item">
-              收款人姓名 : {{formInfo.name}}
+              收款人姓名 : {{form.name}}
             </div>
             <div class="item">
-              收款金额 : {{formInfo.money}}元
+              收款金额 : {{form.money}}元
             </div>
           </div>
           <div class="box spce-center">

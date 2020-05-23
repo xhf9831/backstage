@@ -121,23 +121,21 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
      submitForm(){
        if(this.activeName === 'user'){
          this.login(this.ruleForm).then(()=>{
-          if(this.checked === true){
             localStorage.setItem('user',JSON.stringify(this.ruleForm))
+          if(this.checked === true){
             localStorage.setItem('checked',true)
           }else{
-            localStorage.clear('user')
-            localStorage.clear('checked')
+            localStorage.removeItem('checked')
           }           
          })
-       }else{
+       }else if(this.activeName === 'phone'){
          console.log(this.phoneForm);
          this.phoneLogin(this.phoneForm).then(()=>{
-          if(this.checked === true){
             localStorage.setItem('phone',JSON.stringify(this.phoneForm))
+          if(this.checked === true){
             localStorage.setItem('checked',true)
           }else{
-            localStorage.clear('user')
-            localStorage.clear('checked')
+            localStorage.removeItem('checked')
           }           
          })
        }
@@ -177,12 +175,12 @@ const {mapActions:loginActions,mapState:loginState} = loginModule
    },
    mounted() {
      this.getCaptcha()
-     if(localStorage.getItem('user')){
+     if(localStorage.checked){
        this.checked = JSON.parse(localStorage.getItem('checked'))
        this.ruleForm.username = JSON.parse(localStorage.getItem('user')).username
        this.ruleForm.password = JSON.parse(localStorage.getItem('user')).password
      }
-     if(localStorage.getItem('phone')){
+     if(localStorage.checked){
        this.checked = JSON.parse(localStorage.getItem('checked'))
        this.phoneForm.phone = JSON.parse(localStorage.getItem('phone')).phone
      }

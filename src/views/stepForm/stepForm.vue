@@ -16,7 +16,7 @@
       <div class="c-desc a-center space-center box" v-if="active === 0">
         <el-form :model="form" label-width="100px" :rules="rules" ref="ruleForm">
           <el-form-item label="付款账户:" prop="account1">
-            <el-input v-model="form.account1"></el-input>
+            <el-input v-model="form.payment"></el-input>
           </el-form-item>
           <el-form-item label="收款账户:" prop="account2">
             <div style="display: flex;align-items: center">
@@ -28,7 +28,7 @@
                     :value="item.value">
                 </el-option>
               </el-select>
-              <el-input v-model="form.account2"></el-input>
+              <el-input v-model="form.collection"></el-input>
             </div>
           </el-form-item>
           <el-form-item label="付款人姓名:" prop="name">
